@@ -6,14 +6,27 @@ def littleEndian():
 
 def ASCIIMemoryDump():
     pass
-    #this is a comment from amy
+    #input a string with a maximum of 10 characters
+    #output one line per stored byte in this form: 0x1000 : 0xHH
+    #Rules:
+    #Base address is 0x1000
+    #Each character is stored at the next address (+1)
+    #You must also store a null terminator 0x00 after the last character (like a C-style string) and include it in the dump
+    #After the dump, print: LENGTH (until 0x00) = <number>
 
 def ArrayAddressing():
     pass
-    #this is a comment from jim
+    
 
-def StackFrame():
-    pass
+def StackFrame(a , b):
+    print('\nSTACK FRAME VIEW')
+    print('bp         : RETURN')
+    print('bp + 2     : a = ' , a)
+    print('bp + 4     : b = ' , b)
+    print('\nREGISTER VIEW')
+    print('AX = ', a)
+    print('BX = ', b)
+    print('AX (AX+BX) = ', a + b)
 
 def main():
     while True:
@@ -44,6 +57,9 @@ def main():
             pass
 
         elif op == '5':
+            a = int(input('\nPlease input integer "a": '))
+            b = int(input('Please input integer "b": '))
+            StackFrame(a , b)
             pass
 
         elif op == '0':
