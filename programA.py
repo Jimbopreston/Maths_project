@@ -4,15 +4,20 @@ def decimalToHex():
 def littleEndian():
     pass
 
-def ASCIIMemoryDump():
-    pass
-    #input a string with a maximum of 10 characters
-    #output one line per stored byte in this form: 0x1000 : 0xHH
-    #Rules:
-    #Base address is 0x1000
-    #Each character is stored at the next address (+1)
-    #You must also store a null terminator 0x00 after the last character (like a C-style string) and include it in the dump
-    #After the dump, print: LENGTH (until 0x00) = <number>
+def ASCIIMemoryDump(input_string): 
+    input_string = input_string[:10]
+
+    base_address = 0x1000
+
+    for index, character in enumerate(input_string):
+        ascii_value = ord(character)
+        address = base_address + index
+        print(f"0x{address:04X} : 0x{ascii_value:02X}")
+        
+    null_address = base_address + len(input_string)
+    print(f"0x{null_address:04X} : 0x00")
+
+    print(f"LENGTH (until 0x00) = {len(input_string)}")
 
 def ArrayAddressing():
     pass
@@ -51,7 +56,10 @@ def main():
             pass
 
         elif op == '3':
-            pass
+            input_string = input("\nEnter a string (max 10 characters): ")
+            ASCIIMemoryDump(input_string)
+
+
 
         elif op == '4':
             pass
