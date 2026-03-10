@@ -57,9 +57,9 @@ def main():
             pass
 
         elif op == '5':
-            a = int(input('\nPlease input integer "a": '))
-            b = int(input('Please input integer "b": '))
-            StackFrame(a , b)
+            int1 = int(input('\nPlease input integer "a": '))
+            int2 = int(input('Please input integer "b": '))
+            StackFrame(int1 , int2)
             pass
 
         elif op == '0':
