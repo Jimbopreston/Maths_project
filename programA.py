@@ -20,7 +20,30 @@ def decimalToHex():
     print(f"Signed 16-bit: {signed16}")
 
 def littleEndian():
-    pass
+    n = int(input("Enter a decimal number (0-65535): "))
+    addr = int(input("Enter the address to store the integer: "))
+
+    if not (0 <= n <= 65535):
+        print("Input must be between 0 and 65535")
+        return
+
+    bin = format(n, "016b")
+    bin_lsb = bin[8:]
+    bin_msb = bin[:8]
+    lsb = int(bin_lsb, 2)
+    msb = int(bin_msb, 2)
+    hex_lsb = format(lsb, "X")
+    hex_msb = format(msb, "X")
+    
+    print("")
+    print(f"LOW BYTE {hex_lsb} =", lsb)
+    print(f"HIGH BYTE {hex_msb} =", msb)
+    print("UNPACKED =", n)
+    print(f"MEM[0x{addr}] = 0x{hex_lsb}")
+    print(f"MEM[0x{addr+1:}] = 0x{hex_msb}")
+    print(f"READ MEM[0x{addr}] = 0x{hex_lsb}")
+    print(f"READ MEM[0x{addr+1}] = 0x{hex_msb}")
+
 
 def ASCIIMemoryDump(input_string): 
     input_string = input_string[:10]
@@ -71,7 +94,7 @@ def main():
             decimalToHex()
 
         elif op == '2':
-            pass
+            littleEndian()
 
         elif op == '3':
             input_string = input("\nEnter a string (max 10 characters): ")
