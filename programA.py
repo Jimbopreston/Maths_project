@@ -1,5 +1,4 @@
-def decimalToHex():
-    n = int(input("Enter a decimal number (0-65535): "))
+def decimalToHex(n):
     
     if not (0 <= n <= 65535):
         print("Input must be between 0 and 65535")
@@ -19,9 +18,7 @@ def decimalToHex():
     print(f"16-bit Binary: {bin_value}")
     print(f"Signed 16-bit: {signed16}")
 
-def littleEndian():
-    n = int(input("Enter a decimal number (0-65535): "))
-    addr = int(input("Enter the address to store the integer: "))
+def littleEndian(n,addr):
 
     if not (0 <= n <= 65535):
         print("Input must be between 0 and 65535")
@@ -91,16 +88,17 @@ def main():
         op = input('Option:')
 
         if op == '1':
-            decimalToHex()
+            n = int(input("Enter a decimal number (0-65535): "))
+            decimalToHex(n)
 
         elif op == '2':
-            littleEndian()
+            n = int(input("Enter a decimal number (0-65535): "))
+            addr = int(input("Enter the address to store the integer: "))
+            littleEndian(n,addr)
 
         elif op == '3':
             input_string = input("\nEnter a string (max 10 characters): ")
             ASCIIMemoryDump(input_string)
-
-
 
         elif op == '4':
             pass
