@@ -1,10 +1,6 @@
 import unittest
-import programA
-#this is the test file it will contain 10 tests for programA that validate its behaviour
+from programA import decimalToHex, littleEndian, ASCIIMemoryDump, element_address, read_value, write_value
 
-from io import StringIO
-import sys
-from main import decimalToHex, littleEndian, ASCIIMemoryDump, element_address, read_value, write_value
 
 class TestTask1(unittest.TestCase):
 
@@ -43,11 +39,6 @@ class TestTask1(unittest.TestCase):
         write_value(addr, 10)
         self.assertEqual(read_value(addr), 10)
 
+
 if __name__ == '__main__':
-    Unittest.main()
-
-def test_stackFrame():
-    pass
-
-
-
+    unittest.main()
