@@ -23,8 +23,6 @@ def littleEndian(n,addr):
     if not (0 <= n <= 65535):
         print("Input must be between 0 and 65535")
         return
-
-    addr = input("Enter the address to store the integer: ")
     
     if addr[:2] == '0x':
         addr = int(addr[2:])
