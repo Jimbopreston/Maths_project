@@ -73,11 +73,6 @@ def write_value(address, value):
 def read_value(address):
     return memory.get(address, None)
 
-
-
-    
-    
-
 def StackFrame(a , b):
     print('\nSTACK FRAME VIEW')
     print('bp         : RETURN')
@@ -145,5 +140,6 @@ def main():
 
 
   
-main()
+if __name__ == "__main__":
+    main()
 
