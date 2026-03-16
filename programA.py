@@ -59,6 +59,17 @@ def ASCIIMemoryDump(input_string):
     print(f"0x{null_address:04X} : 0x00")
 
     print(f"LENGTH (until 0x00) = {len(input_string)}")
+memory = {}
+
+def element_address(base, index, size):
+    return base + index * size
+
+def write_value(address, value):
+    memory[address] = value
+
+def read_value(address):
+    return memory.get(address, None)
+
 
 def ArrayAddressing():
     pass
