@@ -56,9 +56,21 @@ def ASCIIMemoryDump(input_string):
     print(f"0x{null_address:04X} : 0x00")
 
     print(f"LENGTH (until 0x00) = {len(input_string)}")
+memory = {}  
 
-def ArrayAddressing():
-    pass
+def element_address(base, index, size):
+    """Calculate the address of an array element."""
+    return base + index * size
+
+def write_value(address, value):
+    memory[address] = value
+
+def read_value(address):
+    return memory.get(address, None)
+
+
+
+    
     
 
 def StackFrame(a , b):
@@ -101,7 +113,17 @@ def main():
             ASCIIMemoryDump(input_string)
 
         elif op == '4':
-            pass
+            print("\nARRAY ADDRESSING + MEMORY WRITE/READ")
+            base = int(input("Enter base address: "))
+            index = int(input("Enter index: "))
+            size = int(input("Enter element size: "))
+            value = int(input("Enter value to store: "))
+
+            addr = element_address(base, index, size)
+            write_value(addr, value)
+
+            print("Calculated address:", addr)
+            print("Value stored:", read_value(addr))
 
         elif op == '5':
             int1 = int(input('\nPlease input integer "a": '))
