@@ -1,22 +1,22 @@
-def decimalToHex(n):
+def convert(n):
     
     if not (0 <= n <= 65535):
         print("Input must be between 0 and 65535")
         return
     
-    hex_value = format(n, "X")
+    hex_str = format(n, "X")
 
-    bin_value = format(n, "016b")
+    bin16_str = format(n, "016b")
 
     if n < 32768:
-        signed16 = n
+        signed16_str = n
     else:
-        signed16 = n - 65536
+        signed16_str = n - 65536
 
     print(f"Decimal: {n}")
-    print(f"Hexadecimal: {hex_value}")
-    print(f"16-bit Binary: {bin_value}")
-    print(f"Signed 16-bit: {signed16}")
+    print(f"Hexadecimal: {hex_str}")
+    print(f"16-bit Binary: {bin16_str}")
+    print(f"Signed 16-bit: {signed16_str}")
 
 def littleEndian(n,addr):
 
@@ -89,7 +89,7 @@ def main():
 
         if op == '1':
             n = int(input("Enter a decimal number (0-65535): "))
-            decimalToHex(n)
+            convert(n)
 
         elif op == '2':
             n = int(input("Enter a decimal number (0-65535): "))
