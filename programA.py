@@ -24,6 +24,13 @@ def littleEndian(n,addr):
         print("Input must be between 0 and 65535")
         return
 
+    addr = input("Enter the address to store the integer: ")
+    
+    if addr[:2] == '0x':
+        addr = int(addr[2:])
+    else:
+        addr = int(addr)
+
     bin = format(n, "016b")
     bin_lsb = bin[8:]
     bin_msb = bin[:8]
@@ -35,9 +42,9 @@ def littleEndian(n,addr):
     print("")
     print(f"LOW BYTE {hex_lsb} =", lsb)
     print(f"HIGH BYTE {hex_msb} =", msb)
-    print("UNPACKED =", n)
+    print(f"UNPACKED {hex_lsb}, {hex_msb} =", n)
     print(f"MEM[0x{addr}] = 0x{hex_lsb}")
-    print(f"MEM[0x{addr+1:}] = 0x{hex_msb}")
+    print(f"MEM[0x{addr+1}] = 0x{hex_msb}")
     print(f"READ MEM[0x{addr}] = 0x{hex_lsb}")
     print(f"READ MEM[0x{addr+1}] = 0x{hex_msb}")
 
