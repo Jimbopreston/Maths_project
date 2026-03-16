@@ -1,5 +1,4 @@
-def decimalToHex():
-    n = int(input("Enter a decimal number (0-65535): "))
+def decimalToHex(n):
     
     if not (0 <= n <= 65535):
         print("Input must be between 0 and 65535")
@@ -19,8 +18,7 @@ def decimalToHex():
     print(f"16-bit Binary: {bin_value}")
     print(f"Signed 16-bit: {signed16}")
 
-def littleEndian():
-    n = int(input("Enter a decimal number (0-65535): "))
+def littleEndian(n,addr):
 
     if not (0 <= n <= 65535):
         print("Input must be between 0 and 65535")
@@ -65,9 +63,21 @@ def ASCIIMemoryDump(input_string):
     print(f"0x{null_address:04X} : 0x00")
 
     print(f"LENGTH (until 0x00) = {len(input_string)}")
+memory = {}  
 
-def ArrayAddressing():
-    pass
+def element_address(base, index, size):
+    """Calculate the address of an array element."""
+    return base + index * size
+
+def write_value(address, value):
+    memory[address] = value
+
+def read_value(address):
+    return memory.get(address, None)
+
+
+
+    
     
 
 def StackFrame(a , b):
@@ -97,19 +107,30 @@ def main():
         op = input('Option:')
 
         if op == '1':
-            decimalToHex()
+            n = int(input("Enter a decimal number (0-65535): "))
+            decimalToHex(n)
 
         elif op == '2':
-            littleEndian()
+            n = int(input("Enter a decimal number (0-65535): "))
+            addr = int(input("Enter the address to store the integer: "))
+            littleEndian(n,addr)
 
         elif op == '3':
             input_string = input("\nEnter a string (max 10 characters): ")
             ASCIIMemoryDump(input_string)
 
-
-
         elif op == '4':
-            pass
+            print("\nARRAY ADDRESSING + MEMORY WRITE/READ")
+            base = int(input("Enter base address: "))
+            index = int(input("Enter index: "))
+            size = int(input("Enter element size: "))
+            value = int(input("Enter value to store: "))
+
+            addr = element_address(base, index, size)
+            write_value(addr, value)
+
+            print("Calculated address:", addr)
+            print("Value stored:", read_value(addr))
 
         elif op == '5':
             int1 = int(input('\nPlease input integer "a": '))
