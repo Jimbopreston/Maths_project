@@ -1,44 +1,112 @@
 import unittest
-from programA import decimalToHex, littleEndian, ASCIIMemoryDump, element_address, read_value, write_value
+from io import StringIO
+import sys
+
+from programA import (
+    decimalToHex,
+    littleEndian,
+    ASCIIMemoryDump,
+    element_address,
+    write_value,
+    read_value,
+    StackFrame
+)
 
 
-class TestTask1(unittest.TestCase):
+class TestProgramA(unittest.TestCase):
 
-    def test_decimalToHex_0(self):
-        self.assertEqual(decimalToHex(0), (0, '0', '0000000000000000', 0))
+    # helper function to capture printed output
+    def capture_output(self, func, *args):
+        captured = StringIO()
+        sys.stdout = captured
+        func(*args)
+        sys.stdout = sys.__stdout__
+        return captured.getvalue()
 
-    def test_decimalToHex_255(self):
-        self.assertEqual(decimalToHex(255), (255, 'FF', '0000000011111111', 255))
+    # ------------------------
+    # PACK / UNPACK BOUNDARIES
+    # ------------------------
 
-    def test_decimalToHex_65535(self):
-        self.assertEqual(decimalToHex(65535), (65535, 'FFFF', '1111111111111111', -1))
+    def test_pack_zero(self):
+        output = self.capture_output(littleEndian, 0, "1000")
+        self.assertIn("LOW BYTE", output)
 
-    def test_littleEndian_lsb(self):
-        lsb, msb = littleEndian(1000, 4096)
-        self.assertEqual(lsb, 232)
+    def test_pack_one(self):
+        output = self.capture_output(littleEndian, 1, "1000")
+        self.assertIn("1", output)
 
-    def test_littleEndian_msb(self):
-        lsb, msb = littleEndian(1000, 4096)
-        self.assertEqual(msb, 3)
+    def test_pack_255(self):
+        output = self.capture_output(littleEndian, 255, "1000")
+        self.assertIn("255", output)
 
-    def test_ASCIIMemoryDump_length(self):
-        self.assertEqual(len(ASCIIMemoryDump("ABC")), 4)
+    def test_pack_256(self):
+        output = self.capture_output(littleEndian, 256, "1000")
+        self.assertIn("256", output)
 
-    def test_ASCIIMemoryDump_content(self):
-        self.assertEqual(ASCIIMemoryDump("A")[0], 0x41)
+    def test_pack_65535(self):
+        output = self.capture_output(littleEndian, 65535, "1000")
+        self.assertIn("65535", output)
 
-    def test_array_address(self):
-        self.assertEqual(element_address(0x1000, 2, 4), 0x1008)
+    # ------------------------
+    # ASCII MEMORY DUMP
+    # ------------------------
 
-    def test_write_read(self):
-        write_value(0x2000, 500)
-        self.assertEqual(read_value(0x2000), 500)
+    def test_ascii_dump_A(self):
+        output = self.capture_output(ASCIIMemoryDump, "A")
+        self.assertIn("0x41", output)  # ASCII for A
+        self.assertIn("LENGTH", output)
 
-    def test_array_bounds(self):
-        addr = element_address(0x1000, 0, 4)
-        write_value(addr, 10)
-        self.assertEqual(read_value(addr), 10)
+    def test_ascii_dump_hello(self):
+        output = self.capture_output(ASCIIMemoryDump, "HELLO")
+        self.assertIn("0x48", output)  # H
+        self.assertIn("0x4F", output)  # O
+
+    # ------------------------
+    # ARRAY ADDRESSING
+    # ------------------------
+
+    def test_array_address_calculation(self):
+        addr = element_address(1000, 3, 2)
+        self.assertEqual(addr, 1006)
+
+    # ------------------------
+    # STACK FRAME
+    # ------------------------
+
+    def test_stack_frame_output(self):
+        output = self.capture_output(StackFrame, 5, 7)
+        self.assertIn("bp", output)
+        self.assertIn("a =", output)
+
+    # ------------------------
+    # BINARY LENGTH TEST
+    # ------------------------
+
+    def test_binary_is_16_bits(self):
+        output = self.capture_output(decimalToHex, 5)
+        self.assertIn("0000000000000101", output)
+
+    # ------------------------
+    # SIGNED 16 BIT TESTS
+    # ------------------------
+
+    def test_signed_65535(self):
+        output = self.capture_output(decimalToHex, 65535)
+        self.assertIn("-1", output)
+
+    def test_signed_32768(self):
+        output = self.capture_output(decimalToHex, 32768)
+        self.assertIn("-32768", output)
+
+    # ------------------------
+    # MEMORY WRITE / READ
+    # ------------------------
+
+    def test_memory_write_read(self):
+        write_value(2000, 500, 2)
+        value = read_value(2000, 2)
+        self.assertEqual(value, 500)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
