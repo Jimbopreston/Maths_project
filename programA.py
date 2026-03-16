@@ -115,9 +115,14 @@ def ArrayAddressing():
         print(f"READ size={size} from ADDRESS {hex(address)} = {value}")
 
 def StackFrame(a , b):
-    print('\nSTACK FRAME VIEW')
-    print('bp         : RETURN')
-    print('bp + 2     : a = ' , a)
+        print('\nSTACK FRAME VIEW')
+        print('bp         : RETURN')
+        print('bp + 2     : a = ' , a)
+        print('bp + 4     : b = ' , b)
+        print('\nREGISTER VIEW')
+        print('AX = ', a)
+        print('BX = ', b)
+        print('AX (AX+BX) = ', a + b)
 
 def main(): 
     running = True
