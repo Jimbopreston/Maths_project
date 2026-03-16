@@ -145,7 +145,7 @@ def main():
 
         elif op == '2':
             n = int(input("Enter a decimal number (0-65535): "))
-            addr = int(input("Enter the address to store the integer: "))
+            addr = input("Enter the address to store the integer: ")
             littleEndian(n,addr)
 
         elif op == '3':
