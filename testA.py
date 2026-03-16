@@ -3,7 +3,7 @@ from io import StringIO
 import sys
 
 from programA import (
-    decimalToHex,
+    convert,
     littleEndian,
     ASCIIMemoryDump,
     element_address,
@@ -83,7 +83,7 @@ class TestProgramA(unittest.TestCase):
     # ------------------------
 
     def test_binary_is_16_bits(self):
-        output = self.capture_output(decimalToHex, 5)
+        output = self.capture_output(convert, 5)
         self.assertIn("0000000000000101", output)
 
     # ------------------------
@@ -91,11 +91,11 @@ class TestProgramA(unittest.TestCase):
     # ------------------------
 
     def test_signed_65535(self):
-        output = self.capture_output(decimalToHex, 65535)
+        output = self.capture_output(convert, 65535)
         self.assertIn("-1", output)
 
     def test_signed_32768(self):
-        output = self.capture_output(decimalToHex, 32768)
+        output = self.capture_output(convert, 32768)
         self.assertIn("-32768", output)
 
     # ------------------------
