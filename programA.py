@@ -64,29 +64,64 @@ def ASCIIMemoryDump(input_string):
 memory = {}  
 
 def element_address(base, index, size):
-    """Calculate the address of an array element."""
     return base + index * size
 
-def write_value(address, value):
-    memory[address] = value
 
-def read_value(address):
-    return memory.get(address, None)
+def write_value(address, value, size):
+
+    if size == 1:
+        memory[address] = value & 0xFF
+
+    elif size == 2:
+        lsb = value & 0xFF
+        msb = (value >> 8) & 0xFF
+
+        memory[address] = lsb
+        memory[address + 1] = msb
+
+
+def read_value(address, size):
+
+    if size == 1:
+        return memory.get(address, 0)
+
+    elif size == 2:
+        lsb = memory.get(address, 0)
+        msb = memory.get(address + 1, 0)
+
+        return (msb << 8) | lsb
+
+
+def ArrayAddressing():
+
+    base = int(input("Enter base address: "), 0)
+    index = int(input("Enter index: "))
+    size = int(input("Enter element size (1 or 2): "))
+    mode = input("Mode (read/write): ").lower()
+
+    address = element_address(base, index, size)
+
+    print(f"ADDRESS = base + index*size = {hex(address)}")
+
+    if mode == "write":
+        value = int(input("Enter value: "))
+        write_value(address, value, size)
+
+        print(f"WRITE size={size} value={value} to ADDRESS {hex(address)}")
+
+    elif mode == "read":
+        value = read_value(address, size)
+
+        print(f"READ size={size} from ADDRESS {hex(address)} = {value}")
 
 def StackFrame(a , b):
     print('\nSTACK FRAME VIEW')
     print('bp         : RETURN')
     print('bp + 2     : a = ' , a)
-    print('bp + 4     : b = ' , b)
-    print('\nREGISTER VIEW')
-    print('AX = ', a)
-    print('BX = ', b)
-    print('AX (AX+BX) = ', a + b)
 
-def main():
-    while True:
-        running = True
-        break
+def main(): 
+    running = True
+        
     while running:
 
         print('\n Choose an option:')
@@ -113,17 +148,29 @@ def main():
             ASCIIMemoryDump(input_string)
 
         elif op == '4':
+            
             print("\nARRAY ADDRESSING + MEMORY WRITE/READ")
-            base = int(input("Enter base address: "))
+
+            base = int(input("Enter base address: "), 0)
             index = int(input("Enter index: "))
-            size = int(input("Enter element size: "))
-            value = int(input("Enter value to store: "))
+            size = int(input("Enter element size (1 or 2): "))
+            mode = input("Mode (read/write): ").lower()
 
             addr = element_address(base, index, size)
-            write_value(addr, value)
 
-            print("Calculated address:", addr)
-            print("Value stored:", read_value(addr))
+
+            if mode == "write":
+                value = int(input("Enter value: "))
+                write_value(addr, value, size)
+
+                print(f"\nADDRESS = base + index*size = {hex(addr)}")
+                print(f"WRITE size={size} value={value} to ADDRESS {hex(addr)}")
+
+            elif mode == "read":
+                value = read_value(addr, size)
+
+                print(f"\nADDRESS = base + index*size = {hex(addr)}")
+                print(f"READ size={size} from ADDRESS {hex(addr)} = {value}")
 
         elif op == '5':
             int1 = int(input('\nPlease input integer "a": '))
