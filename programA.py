@@ -45,7 +45,7 @@ def littleEndian():
     print(f"READ MEM[0x{addr+1}] = 0x{hex_msb}")
 
 # Dini
-def ASCIIMemoryDump(input_string): 
+def ASCIIMemoryDump(input_string):
     input_string = input_string[:10]
 
     base_address = 0x1000
@@ -54,11 +54,12 @@ def ASCIIMemoryDump(input_string):
         ascii_value = ord(character)
         address = base_address + index
         print(f"0x{address:04X} : 0x{ascii_value:02X}")
-        
+
     null_address = base_address + len(input_string)
     print(f"0x{null_address:04X} : 0x00")
 
     print(f"LENGTH (until 0x00) = {len(input_string)}")
+    # ---- OPTION 4 MEMORY FUNCTIONS ----
 memory = {}
 
 def element_address(base, index, size):
@@ -69,11 +70,18 @@ def write_value(address, value):
 
 def read_value(address):
     return memory.get(address, None)
+# -----------------------------------# ---- OPTION 4 MEMORY FUNCTIONS ----
+memory = {}
 
+def element_address(base, index, size):
+    return base + index * size
 
-def ArrayAddressing():
-    pass
-    
+def write_value(address, value):
+    memory[address] = value
+
+def read_value(address):
+    return memory.get(address, None)
+# -----------------------------------
 
 def StackFrame(a , b):
     print('\nSTACK FRAME VIEW')
